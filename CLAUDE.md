@@ -13,4 +13,4 @@ A mobile-first micro-learning platform targeting adolescents. It uses a high-dop
 1. **Vertical Immersive Video Feed:** Full-screen vertical swipe interface utilizing `expo-video` playing hypnotic background loops.
 2. **Text & Audio Synchronization:** Dynamic captions overlaid directly on top of the video, timed alongside an automated AI voiceover track.
 3. **Interactive Quiz Overlay:** A snappy bottom-sheet or overlay modal containing a single multiple-choice question per video to gamify retention.
-4. **Basic User Progress:** A profile tab tracking user engagement metrics (videos completed, streak count). 
+4. **Basic User Progress:** A profile tab tracking user engagement metrics (videos completed, streak count).
