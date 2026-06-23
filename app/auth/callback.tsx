@@ -1,0 +1,33 @@
+import { useEffect } from 'react';
+import { View, ActivityIndicator, StyleSheet } from 'react-native';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { supabase } from '@/lib/supabase';
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' },
+});
+
+export default function AuthCallbackScreen() {
+  const router = useRouter();
+  const { code } = useLocalSearchParams<{ code: string }>();
+
+  useEffect(() => {
+    if (!code) {
+      router.replace('/(auth)/sign-in' as any);
+      return;
+    }
+
+    supabase.auth.exchangeCodeForSession(code).then(({ error }) => {
+      if (error) {
+        router.replace('/(auth)/sign-in' as any);
+      }
+      // Session established — _layout.tsx will redirect to tabs or onboarding
+    });
+  }, [code]);
+
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator color="#fff" size="large" />
+    </View>
+  );
+}

@@ -1,0 +1,60 @@
+import { useEffect, useState } from 'react';
+import { Session, User } from '@supabase/supabase-js';
+import * as Linking from 'expo-linking';
+import { supabase } from '@/lib/supabase';
+
+interface AuthState {
+  session: Session | null;
+  user: User | null;
+  loading: boolean;
+}
+
+export function useAuth(): AuthState & {
+  signInWithEmail: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signUpWithEmail: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signOut: () => Promise<void>;
+} {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  async function signInWithEmail(email: string, password: string) {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    return { error };
+  }
+
+  async function signUpWithEmail(email: string, password: string) {
+    const emailRedirectTo = Linking.createURL('auth/callback');
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo },
+    });
+    return { error };
+  }
+
+  async function signOut() {
+    await supabase.auth.signOut();
+  }
+
+  return {
+    session,
+    user: session?.user ?? null,
+    loading,
+    signInWithEmail,
+    signUpWithEmail,
+    signOut,
+  };
+}
