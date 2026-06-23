@@ -2,15 +2,18 @@ import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import { useTheme } from "@/contexts/theme";
 
 export default function TabLayout() {
+  const { colors } = useTheme();
+
   const screenOptions: BottomTabNavigationOptions = {
     headerShown: false,
-    tabBarActiveTintColor: "#fff",
-    tabBarInactiveTintColor: "#999",
+    tabBarActiveTintColor: colors.tabActive,
+    tabBarInactiveTintColor: colors.tabInactive,
     tabBarStyle: {
-      backgroundColor: "#000",
-      borderTopColor: "#222",
+      backgroundColor: colors.tabBar,
+      borderTopColor: colors.tabBarBorder,
       borderTopWidth: 1,
       paddingBottom: Platform.OS === "ios" ? 20 : 8,
       paddingTop: 8,

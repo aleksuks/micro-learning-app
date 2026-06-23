@@ -1,4 +1,4 @@
--- Seed all 18 topic categories
+-- Seed all 20 topic categories
 INSERT INTO topics (slug, name, description, icon_name, color_primary, color_secondary, sort_order) VALUES
   ('culinary-arts',          'Culinary Arts',              'Discover the science and art behind great food',              'restaurant',      '#F97316', '#FED7AA', 0),
   ('automotive',             'Cars & Automotive',          'From engines to EVs — how cars work and why it matters',      'car-sport',       '#6366F1', '#C7D2FE', 1),
@@ -8,16 +8,18 @@ INSERT INTO topics (slug, name, description, icon_name, color_primary, color_sec
   ('biology',                'Biology',                    'Life itself — from cells to ecosystems',                      'leaf',            '#22C55E', '#BBF7D0', 5),
   ('psychology-social',      'Psychology & Social Skills', 'Understand yourself and connect better with others',          'people',          '#EC4899', '#FBCFE8', 6),
   ('history',                'History',                    'The events and people that shaped our world',                 'time',            '#B45309', '#FDE68A', 7),
-  ('technology-coding',      'Technology & Coding',        'How software, AI, and the internet actually work',            'code-slash',      '#06B6D4', '#A5F3FC', 8),
-  ('art-design',             'Art & Design',               'Color, form, and creativity — the principles of visual art', 'color-palette',   '#F43F5E', '#FECDD3', 9),
-  ('music',                  'Music',                      'Theory, history, and the science of sound',                   'musical-notes',   '#A855F7', '#E9D5FF', 10),
-  ('sports-fitness',         'Sports & Fitness',           'The science of movement, training, and peak performance',     'fitness',         '#EF4444', '#FECACA', 11),
-  ('nature-environment',     'Nature & Environment',       'Biodiversity, climate, and the living planet',                'earth',           '#16A34A', '#BBF7D0', 12),
-  ('finance-economics',      'Finance & Economics',        'Money, markets, and how economies actually function',         'trending-up',     '#EAB308', '#FEF08A', 13),
-  ('philosophy',             'Philosophy',                 'Big questions, logical thinking, and the examined life',      'book',            '#64748B', '#CBD5E1', 14),
-  ('languages-linguistics',  'Languages & Linguistics',    'How language works, where words come from, why it matters',  'chatbubbles',     '#0EA5E9', '#BAE6FD', 15),
-  ('health-wellness',        'Health & Wellness',          'Human anatomy, nutrition, sleep, and mental well-being',      'heart',           '#F87171', '#FECACA', 16),
-  ('geography-travel',       'Geography & Travel',         'Cultures, landscapes, and the geopolitics of our world',      'map',             '#FB923C', '#FED7AA', 17);
+  ('engineering',            'Engineering',                'From structures to machines — the principles of applied science', 'cog', '#6B7280', '#D1D5DB', 8),
+  ('software',               'Software',                   'How software systems, AI, and the internet work',              'at-outline',      '#06B6D4', '#A5F3FC', 9),
+  ('coding',                 'Coding',                     'Programming languages and the art of writing code',            'code',            '#0891B2', '#A5F3FC', 10),
+  ('art-design',             'Art & Design',               'Color, form, and creativity — the principles of visual art', 'color-palette',   '#F43F5E', '#FECDD3', 11),
+  ('music',                  'Music',                      'Theory, history, and the science of sound',                   'musical-notes',   '#A855F7', '#E9D5FF', 12),
+  ('sports-fitness',         'Sports & Fitness',           'The science of movement, training, and peak performance',     'fitness',         '#EF4444', '#FECACA', 13),
+  ('nature-environment',     'Nature & Environment',       'Biodiversity, climate, and the living planet',                'earth',           '#16A34A', '#BBF7D0', 14),
+  ('finance-economics',      'Finance & Economics',        'Money, markets, and how economies actually function',         'trending-up',     '#EAB308', '#FEF08A', 15),
+  ('philosophy',             'Philosophy',                 'Big questions, logical thinking, and the examined life',      'book',            '#64748B', '#CBD5E1', 16),
+  ('languages-linguistics',  'Languages & Linguistics',    'How language works, where words come from, why it matters',  'chatbubbles',     '#0EA5E9', '#BAE6FD', 17),
+  ('health-wellness',        'Health & Wellness',          'Human anatomy, nutrition, sleep, and mental well-being',      'heart',           '#F87171', '#FECACA', 18),
+  ('geography-travel',       'Geography & Travel',         'Cultures, landscapes, and the geopolitics of our world',      'map',             '#FB923C', '#FED7AA', 19);
 
 -- ============================================================
 -- Sub-topics for each category
@@ -87,13 +89,29 @@ INSERT INTO sub_topics (topic_id, slug, name, description, sort_order) VALUES
   ((SELECT id FROM t), 'modern-history',       'Modern History',          'From the Industrial Revolution to WWII',        2),
   ((SELECT id FROM t), 'contemporary-world',   'Contemporary World',      'The world from 1945 to today',                  3);
 
--- Technology & Coding
-WITH t AS (SELECT id FROM topics WHERE slug = 'technology-coding')
+-- Engineering
+WITH t AS (SELECT id FROM topics WHERE slug = 'engineering')
+INSERT INTO sub_topics (topic_id, slug, name, description, sort_order) VALUES
+  ((SELECT id FROM t), 'civil-infrastructure','Civil & Infrastructure',   'Roads, bridges, buildings, and urban systems',   0),
+  ((SELECT id FROM t), 'mechanical-engineering','Mechanical Engineering', 'Machines, engines, and mechanical systems',    1),
+  ((SELECT id FROM t), 'electrical-engineering','Electrical Engineering', 'Power, circuits, and electromagnetic systems',  2),
+  ((SELECT id FROM t), 'materials-engineering','Materials Engineering',  'How materials are engineered and optimized',    3);
+
+-- Software
+WITH t AS (SELECT id FROM topics WHERE slug = 'software')
 INSERT INTO sub_topics (topic_id, slug, name, description, sort_order) VALUES
   ((SELECT id FROM t), 'how-internet-works', 'How the Internet Works',   'Networks, protocols, and the web',              0),
-  ((SELECT id FROM t), 'programming-concepts','Programming Concepts',    'Algorithms, data structures, and logic',        1),
-  ((SELECT id FROM t), 'ai-machine-learning', 'AI & Machine Learning',   'How machines learn and what it means',          2),
-  ((SELECT id FROM t), 'cybersecurity',       'Cybersecurity',           'Protecting systems and understanding threats',   3);
+  ((SELECT id FROM t), 'ai-machine-learning', 'AI & Machine Learning',   'How machines learn and what it means',          1),
+  ((SELECT id FROM t), 'cybersecurity',       'Cybersecurity',           'Protecting systems and understanding threats',   2),
+  ((SELECT id FROM t), 'software-architecture','Software Architecture',   'Systems design and scalable applications',       3);
+
+-- Coding
+WITH t AS (SELECT id FROM topics WHERE slug = 'coding')
+INSERT INTO sub_topics (topic_id, slug, name, description, sort_order) VALUES
+  ((SELECT id FROM t), 'programming-concepts','Programming Concepts',    'Variables, functions, and programming logic',   0),
+  ((SELECT id FROM t), 'data-structures',     'Data Structures',         'Arrays, trees, graphs, and algorithms',         1),
+  ((SELECT id FROM t), 'web-development',     'Web Development',         'HTML, CSS, JavaScript, and web frameworks',     2),
+  ((SELECT id FROM t), 'mobile-gamedev',      'Mobile & Game Dev',       'Building apps and games for mobile platforms',  3);
 
 -- Art & Design
 WITH t AS (SELECT id FROM topics WHERE slug = 'art-design')
